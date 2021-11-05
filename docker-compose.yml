@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  react-web-gui:
+    image: jami/react-web-gui
+    ports:
+      - "80:80"
+    links:
+      - SQLServer
+    volumes:
+      - ./nginx/nginx.conf:/opt/nginx/conf/nginx.conf
+      - ./react-web-gui:/opt/nginx/conf/www/
+    restart: always
+  SQLServer:
+    container_name: SQLServer
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password_01
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./SQLServer:/var/opt/mssql
+    restart: always
